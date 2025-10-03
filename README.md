@@ -197,11 +197,11 @@
  
      (xstar,fval,exitflag,info) = daqp.solve(H,f,A,bupper,blower,sense)
 
-    <img width="1919" height="1003" alt="static_1" src="https://github.com/user-attachments/assets/9a40f434-e072-45e3-a831-70f78a8b517c" />
+<img width="1919" height="1003" alt="static_1" src="https://github.com/user-attachments/assets/9a40f434-e072-45e3-a831-70f78a8b517c" />
 
-    <img width="1919" height="1003" alt="static_2" src="https://github.com/user-attachments/assets/02230999-b0c1-4211-9660-79c928848592" />
+<img width="1919" height="1003" alt="static_2" src="https://github.com/user-attachments/assets/02230999-b0c1-4211-9660-79c928848592" />
 
-    <img width="1919" height="1014" alt="D1" src="https://github.com/user-attachments/assets/0c45bdc9-1e44-4e8e-9c51-00c3a7e2fdb3" />
+<img width="1919" height="1014" alt="D1" src="https://github.com/user-attachments/assets/0c45bdc9-1e44-4e8e-9c51-00c3a7e2fdb3" />
 
-    <img width="1919" height="1014" alt="D2" src="https://github.com/user-attachments/assets/e3da4118-6b0a-4903-ab15-b940a22bfdfd" />
+<img width="1919" height="1014" alt="D2" src="https://github.com/user-attachments/assets/e3da4118-6b0a-4903-ab15-b940a22bfdfd" />
 
