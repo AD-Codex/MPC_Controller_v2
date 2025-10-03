@@ -12,9 +12,9 @@
      K step - (X_k, Y_k, theta_k) 
     ( v_k, w_k)
 
- x_k+1 = x_k + v_k.cos(theta_k).dt
- y_k+1 = y_k + v_k.sin(theta_k).dt
- theta_k+1 = theta_k + w_k.dt
+     x_k+1 = x_k + v_k.cos(theta_k).dt
+     y_k+1 = y_k + v_k.sin(theta_k).dt
+     theta_k+1 = theta_k + w_k.dt
 
      | X_k+1     |   | 1  0  0 | | X_k     |     | cos(theta_k).dt   0 | | V_k |
      | Y_k+1     | = | 0  1  0 |.| Y_k     |  +  | sin(theta_k).dt   0 |.| w_k |
