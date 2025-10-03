@@ -22,7 +22,8 @@
 
 
  ----------------------- consider a dynanic object ---------------------------------
- object move toward to robot
+ 
+    object move toward to robot
 
                                 (Xs_k, Ys_k)
          (Xs_k+1, Ys_k+1)      .
@@ -78,7 +79,8 @@
 
 
  ----------------------- STATE MATRIX ------------------------------------------
- X_predict = phi . x_0 + tau .U_predict +  eta .W_value
+ 
+     X_predict = phi . x_0 + tau .U_predict +  eta .W_value
 
      X_predict = [ x_1, y_1, theta_1, l_1, ly_1, x_2, y_2, theta_2, l_2, ly_2 x_3, y_3, theta_3, l_3, ly_3 x_4, y_4, theta_4 l_4, ly_4] ^ T
     
@@ -99,12 +101,14 @@
 
 
  --------------------------- Cost Fn --------------------------------------
- J = (X_predict - X_ref)^T . Q . (X_predict - X_ref) + U_predict^T . R . U_predict
-   = (1/2) . U_predict^T . H . U_predict + f^T . U_predict + constant
-
- H = tau^T . Q . tau + R
- f = tau^T . Q . ( phi . x_0 + eta . W_value - X_ref)
+ 
+     J = (X_predict - X_ref)^T . Q . (X_predict - X_ref) + U_predict^T . R . U_predict
+       = (1/2) . U_predict^T . H . U_predict + f^T . U_predict + constant
+    
+     H = tau^T . Q . tau + R
+     f = tau^T . Q . ( phi . x_0 + eta . W_value - X_ref)
 
 
  -------------------------- daqp general method ------------------------------
- (xstar,fval,exitflag,info) = daqp.solve(H,f,A,bupper,blower,sense)
+ 
+     (xstar,fval,exitflag,info) = daqp.solve(H,f,A,bupper,blower,sense)
