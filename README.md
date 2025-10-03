@@ -196,3 +196,9 @@
  -------------------------- daqp general method ------------------------------
  
      (xstar,fval,exitflag,info) = daqp.solve(H,f,A,bupper,blower,sense)
+
+<img width="1919" height="1003" alt="static_1" src="https://github.com/user-attachments/assets/9a40f434-e072-45e3-a831-70f78a8b517c" />
+
+
+<img width="1919" height="1003" alt="static_2" src="https://github.com/user-attachments/assets/02230999-b0c1-4211-9660-79c928848592" />
+
