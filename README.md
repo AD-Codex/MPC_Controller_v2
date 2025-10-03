@@ -35,20 +35,20 @@
           .      . 
        .           k+1 step - (X_k+1, Y_k+1, theta_k+1)             
     .     
- K step - (X_k, Y_k, theta_k)      
+     K step - (X_k, Y_k, theta_k)      
 
- robot movement    ( v_k, w_k)
- object movement   ( X_dot_k, Y_dot_k), positive if move toward robot
-
- robot to object distance,     l_(k+1)_x   =   l_k_x - X_dot_k.dt - v_k.cos(theta_k).dt
-                               l_(k+1)_y   =   l_k_y - Y_dot_k.dt - v_k.sin(theta_k).dt
-
-                                     
- x_k+1     = x_k + v_k.cos(theta_k).dt
- y_k+1     = y_k + v_k.sin(theta_k).dt
- theta_k+1 = theta_k + w_k.dt
- l_(k+1)_x = l_k_x - v_k.cos(theta_k).dt - X_dot_k.dt
- l_(k+1)_y = l_k_y - v_k.sin(theta_k).dt - Y_dot_k.dt 
+     robot movement    ( v_k, w_k)
+     object movement   ( X_dot_k, Y_dot_k), positive if move toward robot
+    
+     robot to object distance,     l_(k+1)_x   =   l_k_x - X_dot_k.dt - v_k.cos(theta_k).dt
+                                   l_(k+1)_y   =   l_k_y - Y_dot_k.dt - v_k.sin(theta_k).dt
+    
+                                         
+     x_k+1     = x_k + v_k.cos(theta_k).dt
+     y_k+1     = y_k + v_k.sin(theta_k).dt
+     theta_k+1 = theta_k + w_k.dt
+     l_(k+1)_x = l_k_x - v_k.cos(theta_k).dt - X_dot_k.dt
+     l_(k+1)_y = l_k_y - v_k.sin(theta_k).dt - Y_dot_k.dt 
 
      | X_k+1     |   | 1  0  0  0  0 | | X_k     |     |  cos(theta_k).dt   0 | | V_k |     |   0    0 | | X_dot_k |
      | Y_k+1     | = | 0  1  0  0  0 |.| Y_k     |  +  |  sin(theta_k).dt   0 |.| w_k |  +  |   0    0 |.| Y_dot_k |
@@ -58,11 +58,12 @@
 
 
  ----------------- linearize state equations ------------------------------------
- x_k+1     = x_k     +  v_k.cos(theta_k).dt  -  v_k.sin(theta_k).dt.theta_k
- y_k+1     = y_k     +  v_k.sin(theta_k).dt  +  v_k.cos(theta_k).dt.theta_k
- theta_k+1 = theta_k +  w_k.dt
- l_(k+1)_x = l_k     -  v_k.cos(theta_k).dt  +  v_k.sin(theta_k).dt.theta_k - X_dot_k.dt
- l_(k+1)_y = ly_k    -  v_k.sin(theta_k).dt  -  v_k.cos(theta_k).dt.theta_k - Y_dot_k.dt 
+ 
+      x_k+1     = x_k     +  v_k.cos(theta_k).dt  -  v_k.sin(theta_k).dt.theta_k
+      y_k+1     = y_k     +  v_k.sin(theta_k).dt  +  v_k.cos(theta_k).dt.theta_k
+      theta_k+1 = theta_k +  w_k.dt
+      l_(k+1)_x = l_k     -  v_k.cos(theta_k).dt  +  v_k.sin(theta_k).dt.theta_k - X_dot_k.dt
+      l_(k+1)_y = ly_k    -  v_k.sin(theta_k).dt  -  v_k.cos(theta_k).dt.theta_k - Y_dot_k.dt 
 
 
      | X_k+1     |   | 1  0  -v_k.sin(theta_k).dt  0   0 | | X_k     |     |  cos(theta_k).dt   0 | | V_k |     |   0    0 | | X_dot_k |
