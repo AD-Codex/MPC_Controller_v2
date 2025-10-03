@@ -1,3 +1,110 @@
+# Method 1
+
+ ---------------------- state equations ----------------------------------------
+
+                         k+1 step
+                        .
+                     .
+                  .
+               .
+            .
+         .
+       K step - (X_k, Y_k, theta_k) 
+    ( v_k, w_k)
+
+     x_k+1 = x_k + v_k.cos(theta_k).dt
+     y_k+1 = y_k + v_k.sin(theta_k).dt
+     theta_k+1 = theta_k + w_k.dt
+    
+     | X_k+1     |   | 1  0  0 | | X_k     |     | cos(theta_k).dt   0 | | V_k |
+     | Y_k+1     | = | 0  1  0 |.| Y_k     |  +  | sin(theta_k).dt   0 |.| w_k |
+     | theta_k+1 |   | 0  0  1 | | theta_k |     |               0  dt | 
+
+
+ ----------------------- consider a static object ---------------------------------
+
+                        static object - ( X_s, Y_s)
+                        ..
+                      . .
+                    .  .
+                  .   .
+                .    .
+         l_k  .     . l_k+1
+            .      . 
+          .        k+1 step - (X_k+1, Y_k+1, theta_k+1)             
+        . 
+     K step - (X_k, Y_k, theta_k)      
+       (v_k, w_k)
+
+     orientation between,     K+1 step & K step  =  theta_k
+     angle to static object,       alpha_k       =  aniSin[ ly_k/l_k]
+     ori & static object angle,                  =  alphs_k - theta_k
+                                         l_k+1   =  l_k  -  v_k. cos( alpha_k - theta_k) . dt    ; consider small dts
+    
+                                         
+     x_k+1     = x_k + v_k.cos(theta_k).dt
+     y_k+1     = y_k + v_k.sin(theta_k).dt
+     theta_k+1 = theta_k + w_k.dt
+     l_k+1     = l_k  -  v_k.cos( alpha_k - theta_k).dt
+     ly_k+1    = ly_k - v_k.sin(theta_k).dt
+    
+     | X_k+1     |   | 1  0  0  0  0 | | X_k     |     |            cos(theta_k).dt   0 | | V_k |
+     | Y_k+1     | = | 0  1  0  0  0 |.| Y_k     |  +  |            sin(theta_k).dt   0 |.| w_k |
+     | theta_k+1 |   | 0  0  1  0  0 | | theta_k |     |                          0  dt | 
+     | l_k+1     | = | 0  0  0  1  0 | | l_k     |     |-cos( alpha_k - theta_k).dt   0 |
+     | ly_k+1    | = | 0  0  0  0  1 | | ly_k    |     |           -sin(theta_k).dt   0 |
+
+
+ ----------------- linearize state equations ------------------------------------
+ 
+     x_k+1     = x_k     +  v_k.cos(theta_k).dt  -  v_k.sin(theta_k).dt.theta_k
+     y_k+1     = y_k     +  v_k.sin(theta_k).dt  +  v_k.cos(theta_k).dt.theta_k
+     theta_k+1 = theta_k +  w_k.dt
+     l_k+1     = l_k     -  v_k.cos(alpha_k - theta_k).dt  - v_k.sin(alpha_k - theta_k).dt.theta_k - [v_k.sin(alpha_k-theta_k).dt].l_k/[cos(alpha_k).l_k.l_k] + [v_k.sin(alpha_k-theta_k).dt].ly_k/cos(alpha_k)
+     ly_k+1    = ly_k    -  v_k.sin(theta_k).dt  -  v_k.cos(theta_k).dt.theta_k
+    
+    
+     | X_k+1     |   | 1  0           -v_k.sin(theta_k).dt                                                            0                                                  0 | | X_k     |     |            cos(theta_k).dt   0 | | V_k |
+     | Y_k+1     | = | 0  1            v_k.cos(theta_k).dt                                                            0                                                  0 |.| Y_k     |  +  |            sin(theta_k).dt   0 |.| w_k |
+     | theta_k+1 |   | 0  0                              1                                                            0                                                  0 | | theta_k |     |                          0  dt | 
+     | l_k+1     | = | 0  0  - v_k.sin(alpha_k-theta_k).dt  1-[v_k.sin(alpha_k-theta_k).ly_k.dt]/[cos(alpha_k).l_k.l_k]  [v_k.sin(alpha_k-theta_k).dt]/[cos(alpha_k).ly_k] | | l_k     |     |-cos( alpha_k - theta_k).dt   0 |
+     | ly_k+1    | = | 0  0           -v_k.cos(theta_k).dt                                                            0                                                  1 | | ly_k    |     |           -sin(theta_k).dt   0 |
+    
+         X_1    =           A_0                 . X_0         +          B_0            . U_0
+         X_2    =           A_1                 . X_1         +          B_1            . U_1
+
+
+ ----------------------- STATE MATRIX ------------------------------------------
+
+     X_predict = phi . x_0 + tau .U_predict  
+    
+     X_predict = [ x_1, y_1, theta_1, l_1, ly_1, x_2, y_2, theta_2, l_2, ly_2 x_3, y_3, theta_3, l_3, ly_3 x_4, y_4, theta_4 l_4, ly_4] ^ T
+    
+     phi = [          A0]
+           [       A1.A0]
+           [    A2.A1.A0]
+           [ A3.A2.A1.A0]
+    
+     tau = [          B0,         0,       0,      0]
+           [       A1.B0,        B1,       0,      0]    
+           [    A2.A1.B0,     A2.B1,      B2,      0]  
+           [ A3.A2.A1.B0,  A3.A2.B1,   A3.B2,     B3]
+
+
+ --------------------------- Cost Fn --------------------------------------
+    
+     J = (X_predict - X_ref)^T . Q . (X_predict - X_ref) + U_predict^T . R . U_predict
+       = (1/2) . U_predict^T . H . U_predict + f^T . U_predict + constant
+    
+     H = tau^T . Q . tau + R
+     f = tau^T . Q . ( phi . x_0 - X_ref)
+
+
+ -------------------------- daqp general method ------------------------------
+
+     (xstar,fval,exitflag,info) = daqp.solve(H,f,A,bupper,blower,sense)
+
+
 # Method 2
 
 ---------------------- state equations ----------------------------------------
